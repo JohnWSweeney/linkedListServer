@@ -31,7 +31,7 @@ void startMenu(bool &running)
 			result = populateCmd(tokens, cmd);
 			if(result == 0)
 			{
-				startServerThread(cmd.serverPort);
+				startServerThread(std::ref(cmd));
 			}
 		}
 	}

@@ -3,12 +3,12 @@
 #include "threads.h"
 #include "atomicBool.h"
 
-void Server::run(int portNum)
+void Server::run(cmd &cmd)
 {
 	tcp server;
 	SOCKET listenSocket = INVALID_SOCKET;
 	SOCKET acceptSocket = INVALID_SOCKET;
-	int result = server.openServerSocket(portNum, listenSocket);
+	int result = server.openServerSocket(cmd.serverPort, listenSocket);
 	if (result != 0)
 	{
 		closesocket(listenSocket);
@@ -17,7 +17,7 @@ void Server::run(int portNum)
 	}
 	else
 	{
-		std::cout << "Server started on port " << portNum << ".\n";
+		std::cout << "Server started on port " << cmd.serverPort << ".\n";
 	}
 
 	// listen for client connections, start new session thread on connection acceptance.
@@ -35,17 +35,17 @@ void Server::run(int portNum)
 			}
 			else
 			{
-				startSessionThread(std::move(acceptSocket));
+				startSessionThread(std::move(acceptSocket), std::ref(cmd));
 			}
 		}
 	} while (serverStatus);
 	closesocket(listenSocket);
 	closesocket(acceptSocket);
 	WSACleanup();
-	std::cout << "Server terminated on port " << portNum << ".\n";
+	std::cout << "Server terminated on port " << cmd.serverPort << ".\n";
 }
-void startServer(int portNum)
+void startServer(cmd &cmd)
 {
 	Server newServer;
-	newServer.run(portNum);
+	newServer.run(cmd);
 }

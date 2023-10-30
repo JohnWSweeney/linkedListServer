@@ -3,6 +3,7 @@
 #include <iostream>
 #include <thread>
 #include <WinSock2.h>
+#include "commands.h"
 
-void startServerThread(int serverPort);
-void startSessionThread(SOCKET socket);
+void startServerThread(cmd &cmd);
+void startSessionThread(SOCKET socket, cmd &cmd);

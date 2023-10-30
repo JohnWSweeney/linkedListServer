@@ -3,13 +3,7 @@
 #include "atomicBool.h"
 #include <nlohmann/json.hpp>
 
-struct cmd
-{
-	std::string function;
-	int integer;
-};
-
-void Session::run(SOCKET socket)
+void Session::run(SOCKET socket, cmd &cmd)
 {
 	std::cout << "Session started.\n";
 	tcp listen;
@@ -28,13 +22,11 @@ void Session::run(SOCKET socket)
 				std::cout << s << '\n';
 				nlohmann::json j = nlohmann::json::parse(s);
 
-				cmd fdsa{
-					j["function"].template get<std::string>(),
-					j["integer"].template get<int>()
-				};
+				cmd.function = j["function"].template get<std::string>();
+				cmd.input1 = j["integer"].template get<int>();
 
-				std::cout << "fdsa.function: " << fdsa.function << '\n';
-				std::cout << "fdsa.integer: " << fdsa.integer << '\n';
+				std::cout << "cmd.function: " << cmd.function << '\n';
+				std::cout << "cmd.input1: " << cmd.input1 << '\n';
 			}
 			else if (result == -1) // peer closed connection gracefully.
 			{
@@ -59,8 +51,8 @@ void Session::run(SOCKET socket)
 	std::cout << "Server: listen session ended.\n";
 }
 
-void startSession(SOCKET socket)
+void startSession(SOCKET socket, cmd &cmd)
 {
-	Session newSession(socket);
-	newSession.run(socket);
+	Session newSession(socket, cmd);
+	newSession.run(socket, cmd);
 }

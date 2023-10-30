@@ -1,12 +1,13 @@
 #pragma once
 #include <iostream>
+#include "commands.h"
 
 class Server
 {
 public:
 	Server() {};
 	~Server() {}
-	void run(int portNum);
+	void run(cmd &cmd);
 };
 
-void startServer(int portNum);
+void startServer(cmd &cmd);

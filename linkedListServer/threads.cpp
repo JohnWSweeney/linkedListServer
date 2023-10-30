@@ -3,29 +3,30 @@
 #include "session.h"
 #include "atomicBool.h"
 
-void startServerThread(int serverPort)
+void startServerThread(cmd &cmd)
 {
 	try {
 		serverStatus = true;
-		//int portNum = 123;
-		std::thread serverThread(startServer, serverPort);
+		std::thread serverThread(startServer, std::ref(cmd));
 		serverThread.detach();
 	}
 	catch (...)
 	{
+		serverStatus = false;
 		std::cout << "Server start failed.\n";
 	}
 }
 
-void startSessionThread(SOCKET socket)
+void startSessionThread(SOCKET socket, cmd &cmd)
 {
 	try {
 		sessionStatus = true;
-		std::thread sessionThread(startSession, socket);
+		std::thread sessionThread(startSession, socket, std::ref(cmd));
 		sessionThread.detach();
 	}
 	catch (...)
 	{
+		sessionStatus = false;
 		std::cout << "Session start failed.\n";
 	}
 }
