@@ -4,5 +4,5 @@
 #include <thread>
 #include <WinSock2.h>
 
-void startServerThread();
+void startServerThread(int serverPort);
 void startSessionThread(SOCKET socket);

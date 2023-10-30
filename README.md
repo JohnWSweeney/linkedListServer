@@ -3,6 +3,9 @@
 Companion client app for [linkedListClient](https://github.com/JohnWSweeney/linkedListClient).
 
 ## ChangeLog
+v0.0.3
+- Added commands header/cpp and updated startMenu, threads header/cpp to accept user commands to start server.
+
 v0.0.2
 - Merged Session::run and list functions.
 - Added while loop to Session::run to hold connction open.

@@ -130,6 +130,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="atomicBool.h" />
+    <ClInclude Include="commands.h" />
     <ClInclude Include="server.h" />
     <ClInclude Include="session.h" />
     <ClInclude Include="start.h" />
@@ -138,6 +139,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="atomicBool.cpp" />
+    <ClCompile Include="commands.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="server.cpp" />
     <ClCompile Include="session.cpp" />

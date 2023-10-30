@@ -3,12 +3,12 @@
 #include "session.h"
 #include "atomicBool.h"
 
-void startServerThread()
+void startServerThread(int serverPort)
 {
 	try {
 		serverStatus = true;
-		int portNum = 123;
-		std::thread serverThread(startServer, portNum);
+		//int portNum = 123;
+		std::thread serverThread(startServer, serverPort);
 		serverThread.detach();
 	}
 	catch (...)
