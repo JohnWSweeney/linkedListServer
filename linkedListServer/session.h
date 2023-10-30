@@ -8,7 +8,6 @@ public:
 	Session(SOCKET socket) {}
 	~Session() {}
 	void run(SOCKET socket);
-	void list(SOCKET socket);
 };
 
 void startSession(SOCKET socket);
