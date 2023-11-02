@@ -1,4 +1,5 @@
 #include "session.h"
+#include "threads.h"
 #include "tcp.h"
 #include "atomicBool.h"
 #include <nlohmann/json.hpp>
@@ -17,24 +18,36 @@ void convertBufferToCmd(char *buffer, cmd &cmd)
 void Session::run(SOCKET socket, cmd &cmd)
 {
 	std::cout << "Session started.\n";
+	std::mutex m;
+	std::condition_variable cv;
 	tcp listen;
-	int result = 0;
+	int result;
 
+	std::unique_lock<std::mutex> lk(m);
 	do {
 		msg newMsg;
 		result = listen.rx(socket, newMsg.buffer, newMsg.bufferLen);
 		if (result > 0) // message received.
 		{
-			std::cout << "Server received: " << newMsg.buffer << '\n';
+			//std::cout << "Server received: " << newMsg.buffer << '\n';
 			convertBufferToCmd(newMsg.buffer, cmd);
-			std::cout << cmd.demoType << '\n';
-			std::cout << cmd.demoStatus << '\n';
-			std::cout << cmd.function << '\n';
-			std::cout << cmd.input1 << "\n\n";
 
-			if (cmd.demoStatus == "stop")
+			if (cmd.demoStatus == "start")
 			{
-				sessionStatus = false;
+				startDemoThread(std::ref(m), std::ref(cv), std::ref(cmd));
+				cv.wait(lk);
+			}
+			else if (cmd.demoStatus == "stop")
+			{
+				cmd.function = {};
+				status = false;
+				cv.notify_one();
+				cv.wait(lk);
+			}
+			else // running.
+			{
+				cv.notify_one();
+				cv.wait(lk);
 			}
 		}
 		else if (result == -1) // peer closed connection gracefully.

@@ -36,6 +36,15 @@
     <ClInclude Include="commands.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="demos.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="sList.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="nodes.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="atomicBool.cpp">
@@ -60,6 +69,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="commands.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="demos.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="sList.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

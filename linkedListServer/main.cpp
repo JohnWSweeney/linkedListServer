@@ -2,7 +2,7 @@
 
 int main()
 {
-	std::cout << "linkedListServer v0.0.5\n\n";
+	std::cout << "linkedListServer v0.0.6\n\n";
 	bool running = true;
 	while (running)
 	{
