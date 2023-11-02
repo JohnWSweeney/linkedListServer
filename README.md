@@ -3,6 +3,10 @@
 Companion client app for [linkedListClient](https://github.com/JohnWSweeney/linkedListClient).
 
 ## ChangeLog
+v0.0.5
+- Added convertBufferToCmd to session cpp to streamline buffer conversion to command struct, via JSON.
+- Updated session cpp to end session by client command. 
+
 v0.0.4
 - Updated startMenu function, threads, server, session header/cpps to give all access to cmd struct.
 

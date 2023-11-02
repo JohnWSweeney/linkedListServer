@@ -6,6 +6,8 @@
 struct cmd
 {
 	int serverPort;
+	std::string demoType;
+	std::string demoStatus;
 	std::string function;
 	int input1;
 };

@@ -3,44 +3,52 @@
 #include "atomicBool.h"
 #include <nlohmann/json.hpp>
 
+void convertBufferToCmd(char *buffer, cmd &cmd)
+{
+	// convert buffer to JSON, then JSON to cmd struct.
+	std::string tempStr(buffer);
+	nlohmann::json tempJSON = nlohmann::json::parse(tempStr);
+	cmd.demoType = tempJSON["demoType"].template get<std::string>();
+	cmd.demoStatus = tempJSON["demoStatus"].template get<std::string>();
+	cmd.function = tempJSON["function"].template get<std::string>();
+	cmd.input1 = tempJSON["input1"].template get<int>();
+}
+
 void Session::run(SOCKET socket, cmd &cmd)
 {
 	std::cout << "Session started.\n";
 	tcp listen;
-	int result;
+	int result = 0;
 
-	while (sessionStatus)
-	{
-		do {
-			msg newMsg;
-			result = listen.rx(socket, newMsg.buffer, newMsg.bufferLen);
-			if (result > 0) // message received.
+	do {
+		msg newMsg;
+		result = listen.rx(socket, newMsg.buffer, newMsg.bufferLen);
+		if (result > 0) // message received.
+		{
+			std::cout << "Server received: " << newMsg.buffer << '\n';
+			convertBufferToCmd(newMsg.buffer, cmd);
+			std::cout << cmd.demoType << '\n';
+			std::cout << cmd.demoStatus << '\n';
+			std::cout << cmd.function << '\n';
+			std::cout << cmd.input1 << "\n\n";
+
+			if (cmd.demoStatus == "stop")
 			{
-				std::cout << "Server received: " << newMsg.buffer << '\n';
-
-				std::string s(newMsg.buffer);
-				std::cout << s << '\n';
-				nlohmann::json j = nlohmann::json::parse(s);
-
-				cmd.function = j["function"].template get<std::string>();
-				cmd.input1 = j["integer"].template get<int>();
-
-				std::cout << "cmd.function: " << cmd.function << '\n';
-				std::cout << "cmd.input1: " << cmd.input1 << '\n';
-			}
-			else if (result == -1) // peer closed connection gracefully.
-			{
-				std::cout << "Server: listen peer gracefully closed connection.\n";
 				sessionStatus = false;
 			}
-			else if (result < -1) // error.
-			{
-				std::cout << "Server: listen.rx failed.\n";
-				sessionStatus = false;
-			}
-		} while (result > -1);
-	}
-
+		}
+		else if (result == -1) // peer closed connection gracefully.
+		{
+			std::cout << "Client gracefully closed connection.\n";
+			sessionStatus = false;
+		}
+		else if (result < -1) // error.
+		{
+			std::cout << "Session rx failed.\n";
+			sessionStatus = false;
+		}
+	} while (result > -1 and sessionStatus == true);
+	
 	// gracefully close connection.
 	result = listen.closeConnection(socket, false);
 	if (result != 0)
