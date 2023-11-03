@@ -1,6 +1,16 @@
 # linkedListServer
 
-Companion client app for [linkedListClient](https://github.com/JohnWSweeney/linkedListClient).
+A console server app running an interactive demo for linked lists and their applications. Basically, this is my [linkedListDemo](https://github.com/JohnWSweeney/linkedListDemo) project running on top of a tcp server that receives commands for the demos via a companion [client app](https://github.com/JohnWSweeney/linkedListClient). 
+
+## Starting the Server
+The app opens a console window on startup. Enter the *command* keywords separated by a space. Commands are case-sensitive. 
+
+Start the server by entering:
+>*start portNum*
+
+where *portNum* is the port on your computer where the server will send/receive demo commands.
+
+Once the server is running, run the companion client app to connect to the server and send demo commands. 
 
 ## ChangeLog
 v0.0.8
