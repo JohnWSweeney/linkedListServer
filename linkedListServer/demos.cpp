@@ -1,6 +1,7 @@
 #include "demos.h"
 #include "sList.h"
 #include "atomicBool.h"
+#include "random.h"
 
 void sDemo(std::mutex &m, std::condition_variable &cv, cmd &cmd)
 {
@@ -306,10 +307,10 @@ void sDemo(std::mutex &m, std::condition_variable &cv, cmd &cmd)
 		}
 		else if (cmd.function == "returnPosByPtr")
 		{
-			result = slist.returnPosByPtr(list, cmd.output, ptr);
+			result = slist.returnPosByPtr(list, data, ptr);
 			if (result == 0)
 			{
-				std::cout << "Pointer " << ptr << " is in position " << cmd.output << ".\n";
+				std::cout << "Pointer " << ptr << " is in position " << data << ".\n";
 			}
 			else if (result == 1)
 			{
@@ -326,10 +327,10 @@ void sDemo(std::mutex &m, std::condition_variable &cv, cmd &cmd)
 		}
 		else if (cmd.function == "returnDataByPos")
 		{
-			result = slist.returnDataByPos(list, cmd.output, cmd.input1);
+			result = slist.returnDataByPos(list, data, cmd.input1);
 			if (result == 0)
 			{
-				std::cout << "Data in position " << cmd.input1 << ": " << cmd.output << '\n';
+				std::cout << "Data in position " << cmd.input1 << ": " << data << '\n';
 			}
 			else if (result == 1)
 			{
@@ -342,10 +343,10 @@ void sDemo(std::mutex &m, std::condition_variable &cv, cmd &cmd)
 		}
 		else if (cmd.function == "returnDataByPtr")
 		{
-			result = slist.returnDataByPtr(list, cmd.output, ptr);
+			result = slist.returnDataByPtr(list, data, ptr);
 			if (result == 0)
 			{
-				std::cout << "Data in pointer " << ptr << ": " << cmd.output << '\n';
+				std::cout << "Data in pointer " << ptr << ": " << data << '\n';
 			}
 			else if (result == 1)
 			{
@@ -400,10 +401,10 @@ void sDemo(std::mutex &m, std::condition_variable &cv, cmd &cmd)
 		}
 		else if (cmd.function == "findDataReturnPos")
 		{
-			result = slist.findDataReturnPos(list, cmd.input1, cmd.output);
+			result = slist.findDataReturnPos(list, cmd.input1, data);
 			if (result == 0)
 			{
-				std::cout << "Data '" << cmd.input1 << "' found in position " << cmd.output << ".\n";
+				std::cout << "Data '" << cmd.input1 << "' found in position " << data << ".\n";
 			}
 			else if (result == 1)
 			{
@@ -788,27 +789,27 @@ void sDemo(std::mutex &m, std::condition_variable &cv, cmd &cmd)
 				slist.print(list);
 			}
 		}
-		//else if (cmd.function == "addRandomNodes")
-		//{
-		//	random random;
-		//	random.initMt();
-		//	for (int i = 0; i < cmd.input1; i++)
-		//	{
-		//		int num = random.getNum(cmd.input2, cmd.input3);
-		//		result = slist.addNodeBack(list, num);
-		//		if (result == 1)
-		//		{
-		//			std::cout << "List is empty.\n";
-		//			break;
-		//		}
-		//	}
-		//	result = slist.size(list, nodeCount);
-		//	if (result == 0)
-		//	{
-		//		std::cout << "Node count: " << nodeCount << '\n';
-		//		slist.print(list);
-		//	}
-		//}
+		else if (cmd.function == "addRandomNodes")
+		{
+			random random;
+			random.initMt();
+			for (int i = 0; i < cmd.input1; i++)
+			{
+				int num = random.getNum(cmd.input2, cmd.input3);
+				result = slist.addNodeBack(list, num);
+				if (result == 1)
+				{
+					std::cout << "List is empty.\n";
+					break;
+				}
+			}
+			result = slist.size(list, nodeCount);
+			if (result == 0)
+			{
+				std::cout << "Node count: " << nodeCount << '\n';
+				slist.print(list);
+			}
+		}
 		else if (cmd.function == "clearPtr")
 		{
 			ptr = nullptr;
@@ -837,7 +838,6 @@ void sDemo(std::mutex &m, std::condition_variable &cv, cmd &cmd)
 			{
 				std::cout << "Postition 1 is not in list.\n";
 			}
-
 			// swap ptr1 and ptr2.
 			result = slist.swap(&list, ptr1, ptr2);
 			if (result == 0)
@@ -851,30 +851,30 @@ void sDemo(std::mutex &m, std::condition_variable &cv, cmd &cmd)
 			}
 			else if (result == 4)
 			{
-				// 
+				 
 			}
 		}
-		//else if (cmd.function == "shuffle")
-		//{
-		//	result = slist.shuffle(&list);
-		//	if (result == 0)
-		//	{
-		//		result = slist.size(list, nodeCount);
-		//		if (result == 0)
-		//		{
-		//			std::cout << "Node count: " << nodeCount << '\n';
-		//			slist.print(list);
-		//		}
-		//	}
-		//	else if (result == 1)
-		//	{
-		//		std::cout << "List is empty.\n";
-		//	}
-		//	else if (result == 5)
-		//	{
-		//		std::cout << "List has only one node.\n";
-		//	}
-		//}
+		else if (cmd.function == "shuffle")
+		{
+			result = slist.shuffle(&list);
+			if (result == 0)
+			{
+				result = slist.size(list, nodeCount);
+				if (result == 0)
+				{
+					std::cout << "Node count: " << nodeCount << '\n';
+					slist.print(list);
+				}
+			}
+			else if (result == 1)
+			{
+				std::cout << "List is empty.\n";
+			}
+			else if (result == 5)
+			{
+				std::cout << "List has only one node.\n";
+			}
+		}
 		else if (cmd.function == "bubbleSort")
 		{
 			result = slist.bubbleSort(&list, cmd.isAscending);

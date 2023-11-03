@@ -13,6 +13,9 @@ void convertBufferToCmd(char *buffer, cmd &cmd)
 	cmd.demoStatus = tempJSON["demoStatus"].template get<std::string>();
 	cmd.function = tempJSON["function"].template get<std::string>();
 	cmd.input1 = tempJSON["input1"].template get<int>();
+	cmd.input2 = tempJSON["input2"].template get<int>();
+	cmd.input3 = tempJSON["input3"].template get<int>();
+	cmd.isAscending = tempJSON["isAscending"].template get<bool>();
 }
 
 void Session::run(SOCKET socket, cmd &cmd)

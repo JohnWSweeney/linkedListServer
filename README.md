@@ -3,6 +3,10 @@
 Companion client app for [linkedListClient](https://github.com/JohnWSweeney/linkedListClient).
 
 ## ChangeLog
+v0.0.7
+- Added random class, updated sList header/cpp and singly linked list demo.
+- Updated convertBufferToCmd in session cpp to copy all JSON fields to command struct fields.
+
 v0.0.6
 - Working draft of singly linked list demo running on server, controlled by JSON commands from client.
 
