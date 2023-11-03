@@ -42,6 +42,10 @@ void startDemoThread(std::mutex &m, std::condition_variable &cv, cmd &cmd)
 	{
 		ptr = sDemo;
 	}
+	else if (cmd.demoType == "dList")
+	{
+		ptr = dDemo;
+	}
 
 	try {
 		status = true;

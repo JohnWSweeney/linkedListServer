@@ -132,6 +132,7 @@
     <ClInclude Include="atomicBool.h" />
     <ClInclude Include="commands.h" />
     <ClInclude Include="demos.h" />
+    <ClInclude Include="dList.h" />
     <ClInclude Include="nodes.h" />
     <ClInclude Include="random.h" />
     <ClInclude Include="server.h" />
@@ -145,6 +146,7 @@
     <ClCompile Include="atomicBool.cpp" />
     <ClCompile Include="commands.cpp" />
     <ClCompile Include="demos.cpp" />
+    <ClCompile Include="dList.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="random.cpp" />
     <ClCompile Include="server.cpp" />
