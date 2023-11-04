@@ -4,6 +4,7 @@
 #include "sList.h"
 #include "dList.h"
 #include "csList.h"
+#include "cdList.h"
 
 void sDemo(std::mutex &m, std::condition_variable &cv, cmd &cmd)
 {
@@ -2794,4 +2795,902 @@ void csDemo(std::mutex &m, std::condition_variable &cv, cmd &cmd)
 	}
 	cv.notify_one();
 	std::cout << "Circular singly linked list demo stopped.\n";
+}
+
+void cdDemo(std::mutex &m, std::condition_variable &cv, cmd &cmd)
+{
+	std::cout << "Circular doubly linked list demo started.\n";
+	cdList cdlist;
+	int result;
+	int position;
+	int data;
+	int nodeCount;
+	dNode* list = nullptr;
+	dNode* ptr = nullptr;
+
+	std::unique_lock<std::mutex> lk(m);
+	cv.notify_one();
+	while (status)
+	{
+		cv.wait(lk);
+		std::cout << '\n';
+		if (cmd.function == "init")
+		{
+			list = cdlist.init(cmd.input1);
+			cdlist.size(list, nodeCount);
+			std::cout << "Node count: " << nodeCount << '\n';
+			cdlist.print(list);
+		}
+		else if (cmd.function == "addNodeFront")
+		{
+			result = cdlist.addNodeFront(&list, cmd.input1);
+			if (result == 0)
+			{
+				cdlist.size(list, nodeCount);
+				std::cout << "Node count: " << nodeCount << '\n';
+				cdlist.print(list);
+			}
+			else
+			{
+				std::cout << "List is empty.\n";
+			}
+		}
+		else if (cmd.function == "addNodeBack")
+		{
+			result = cdlist.addNodeBack(list, cmd.input1);
+			if (result == 0)
+			{
+				cdlist.size(list, nodeCount);
+				std::cout << "Node count: " << nodeCount << '\n';
+				cdlist.print(list);
+			}
+			else
+			{
+				std::cout << "List is empty.\n";
+			}
+		}
+		else if (cmd.function == "addNodeByPos")
+		{
+			result = cdlist.addNodeByPos(&list, cmd.input1, cmd.input2);
+			if (result == 0)
+			{
+				cdlist.size(list, nodeCount);
+				std::cout << "Node count: " << nodeCount << '\n';
+				cdlist.print(list);
+			}
+			else if (result == 1)
+			{
+				std::cout << "List is empty.\n";
+			}
+			else if (result == -1)
+			{
+				std::cout << "Postition is not in list.\n";
+			}
+		}
+		else if (cmd.function == "deleteNodeFront")
+		{
+			result = cdlist.deleteNodeFront(&list);
+			if (result == 0)
+			{
+				result = cdlist.size(list, nodeCount);
+				if (result == 0)
+				{
+					std::cout << "Node count: " << nodeCount << '\n';
+					cdlist.print(list);
+				}
+				else
+				{
+					std::cout << "List is empty.\n";
+				}
+			}
+			else if (result == 1)
+			{
+				std::cout << "List is empty.\n";
+			}
+		}
+		else if (cmd.function == "deleteNodeBack")
+		{
+			result = cdlist.deleteNodeBack(&list);
+			if (result == 0)
+			{
+				result = cdlist.size(list, nodeCount);
+				if (result == 0)
+				{
+					std::cout << "Node count: " << nodeCount << '\n';
+					cdlist.print(list);
+				}
+				else
+				{
+					std::cout << "List is empty.\n";
+				}
+			}
+			else if (result == 1)
+			{
+				std::cout << "List is empty.\n";
+			}
+		}
+		else if (cmd.function == "deleteNodeByPos")
+		{
+			result = cdlist.deleteNodeByPos(&list, cmd.input1);
+			if (result == 0)
+			{
+				result = cdlist.size(list, nodeCount);
+				if (result == 0)
+				{
+					std::cout << "Node count: " << nodeCount << '\n';
+					cdlist.print(list);
+				}
+				else if (result == 1)
+				{
+					std::cout << "List is empty.\n";
+				}
+			}
+			else if (result == 1)
+			{
+				std::cout << "List is empty.\n\n";
+			}
+			else if (result == -1)
+			{
+				std::cout << "Postition is out of bounds.\n";
+			}
+		}
+		else if (cmd.function == "deleteNodeByPtr")
+		{
+			result = cdlist.deleteNodeByPtr(&list, ptr);
+			if (result == 0)
+			{
+				result = cdlist.size(list, nodeCount);
+				if (result == 0)
+				{
+					std::cout << "Node count: " << nodeCount << '\n';
+					cdlist.print(list);
+				}
+				else
+				{
+					std::cout << "List is empty.\n";
+				}
+			}
+			else if (result == 1)
+			{
+				std::cout << "List is empty.\n\n";
+			}
+			else if (result == -1)
+			{
+				std::cout << "Pointer not in list.\n\n";
+			}
+			else if (result == 2)
+			{
+				std::cout << "Pointer is null.\n\n";
+			}
+		}
+		else if (cmd.function == "deleteBeforePos")
+		{
+			result = cdlist.deleteBeforePos(&list, cmd.input1);
+			if (result == 0)
+			{
+				result = cdlist.size(list, nodeCount);
+				if (result == 0)
+				{
+					std::cout << "Node count: " << nodeCount << '\n';
+					cdlist.print(list);
+				}
+				else
+				{
+					std::cout << "List is empty.\n";
+				}
+			}
+			else if (result == 1)
+			{
+				std::cout << "List is empty.\n\n";
+			}
+			else if (result == -1)
+			{
+				std::cout << "Positon is not in list.\n";
+			}
+		}
+		else if (cmd.function == "deleteBeforePtr")
+		{
+			result = cdlist.deleteBeforePtr(&list, ptr);
+			if (result == 0)
+			{
+				result = cdlist.size(list, nodeCount);
+				if (result == 0)
+				{
+					std::cout << "Node count: " << nodeCount << '\n';
+					cdlist.print(list);
+				}
+				else
+				{
+					std::cout << "List is empty.\n";
+				}
+			}
+			else if (result == 1)
+			{
+				std::cout << "List is empty.\n\n";
+			}
+			else if (result == -1)
+			{
+				std::cout << "Pointer not in list.\n\n";
+			}
+			else if (result == 2)
+			{
+				std::cout << "Pointer is null.\n\n";
+			}
+		}
+		else if (cmd.function == "deleteAfterPos")
+		{
+			result = cdlist.deleteAfterPos(&list, cmd.input1);
+			if (result == 0)
+			{
+				result = cdlist.size(list, nodeCount);
+				if (result == 0)
+				{
+					std::cout << "Node count: " << nodeCount << '\n';
+					cdlist.print(list);
+				}
+				else
+				{
+					std::cout << "List is empty.\n";
+				}
+			}
+			else if (result == 1)
+			{
+				std::cout << "List is empty.\n\n";
+			}
+			else if (result == -1)
+			{
+				std::cout << "Positon is not in list.\n";
+			}
+		}
+		else if (cmd.function == "deleteAfterPtr")
+		{
+			result = cdlist.deleteAfterPtr(&list, ptr);
+			if (result == 0)
+			{
+				result = cdlist.size(list, nodeCount);
+				if (result == 0)
+				{
+					std::cout << "Node count: " << nodeCount << '\n';
+					cdlist.print(list);
+				}
+				else
+				{
+					std::cout << "List is empty.\n";
+				}
+			}
+			else if (result == 1)
+			{
+				std::cout << "List is empty.\n\n";
+			}
+			else if (result == -1)
+			{
+				std::cout << "Pointer not in list.\n\n";
+			}
+			else if (result == 2)
+			{
+				std::cout << "Pointer is null.\n\n";
+			}
+		}
+		else if (cmd.function == "returnPtrByPos")
+		{
+			result = cdlist.returnPtrByPos(list, cmd.input1, ptr);
+			if (result == 0)
+			{
+				std::cout << "Pointer to position " << cmd.input1 << ": " << ptr << '\n';
+			}
+			else if (result == 1)
+			{
+				std::cout << "List is empty.\n\n";
+			}
+			else if (result == -1)
+			{
+				std::cout << "Postition is out of bounds.\n";
+			}
+		}
+		else if (cmd.function == "returnPosByPtr")
+		{
+			result = cdlist.returnPosByPtr(list, data, ptr);
+			if (result == 0)
+			{
+				std::cout << "Pointer " << ptr << " is in position " << data << ".\n";
+			}
+			else if (result == 1)
+			{
+				std::cout << "List is empty.\n";
+			}
+			else if (result == -1)
+			{
+
+				std::cout << "Pointer not in list.\n";
+			}
+			else if (result == 2)
+			{
+				std::cout << "Pointer is null.\n";
+			}
+		}
+		else if (cmd.function == "returnDataByPos")
+		{
+			result = cdlist.returnDataByPos(list, data, cmd.input1);
+			if (result == 0)
+			{
+				std::cout << "Data in position " << cmd.input1 << ": " << data << '\n';
+			}
+			else if (result == 1)
+			{
+				std::cout << "List is empty.\n";
+			}
+			else if (result == -1)
+			{
+				std::cout << "Postition is out of bounds.\n";
+			}
+		}
+		else if (cmd.function == "returnDataByPtr")
+		{
+			result = cdlist.returnDataByPtr(list, data, ptr);
+			if (result == 0)
+			{
+				std::cout << "Data in pointer " << ptr << ": " << data << '\n';
+			}
+			else if (result == 1)
+			{
+				std::cout << "List is empty.\n\n";
+			}
+			else if (result == -1)
+			{
+				std::cout << "Pointer is not in list.\n\n";
+			}
+			else if (result == 2)
+			{
+				std::cout << "Pointer is null.\n\n";
+			}
+		}
+		else if (cmd.function == "updateDataByPos")
+		{
+			result = cdlist.updateDataByPos(list, cmd.input1, cmd.input2);
+			if (result == 0)
+			{
+				std::cout << "List updated.\n";
+				cdlist.print(list);
+			}
+			else if (result == 1)
+			{
+				std::cout << "List is empty.\n";
+			}
+			else if (result == -1)
+			{
+				std::cout << "Positon is not in list.\n";
+			}
+		}
+		else if (cmd.function == "updateDataByPtr")
+		{
+			result = cdlist.updateDataByPtr(list, cmd.input1, ptr);
+			if (result == 0)
+			{
+				std::cout << "List updated.\n";
+				cdlist.print(list);
+			}
+			else if (result == 1)
+			{
+				std::cout << "List is empty.\n";
+			}
+			else if (result == -1)
+			{
+				std::cout << "Pointer is not in list.\n";
+			}
+			else if (result == 2)
+			{
+				std::cout << "Pointer is null.\n";
+			}
+		}
+		else if (cmd.function == "findDataReturnPos")
+		{
+			result = cdlist.findDataReturnPos(list, cmd.input1, position);
+			if (result == 0)
+			{
+				std::cout << "Data '" << cmd.input1 << "' found in position " << position << ".\n";
+			}
+			else if (result == 1)
+			{
+				std::cout << "List is empty.\n";
+			}
+			else if (result == -1)
+			{
+				std::cout << "Data not found in list.\n";
+			}
+		}
+		else if (cmd.function == "findDataReturnPtr")
+		{
+			result = cdlist.findDataReturnPtr(list, cmd.input1, ptr);
+			if (result == 0)
+			{
+				std::cout << "Data '" << cmd.input1 << "' found in pointer " << ptr << ".\n";
+			}
+			else if (result == 1)
+			{
+				std::cout << "list is empty.\n";
+			}
+			else if (result == -1)
+			{
+				std::cout << "Data not found in list.\n";
+			}
+		}
+		else if (cmd.function == "findMinReturnPos")
+		{
+			result = cdlist.findMinReturnPos(list, data, position);
+			if (result == 0)
+			{
+				std::cout << "List minimum " << data << " in position " << position << ".\n";
+			}
+			else
+			{
+				std::cout << "List is empty.\n";
+			}
+		}
+		else if (cmd.function == "findMinReturnPtr")
+		{
+			result = cdlist.findMinReturnPtr(list, data, ptr);
+			if (result == 0)
+			{
+				std::cout << "List minimum " << data << " in pointer " << ptr << ".\n";
+			}
+			else
+			{
+				std::cout << "List is empty.\n";
+			}
+		}
+		else if (cmd.function == "findMaxReturnPos")
+		{
+			result = cdlist.findMaxReturnPos(list, data, position);
+			if (result == 0)
+			{
+				std::cout << "List maximum " << data << " in position " << position << ".\n";
+			}
+			else
+			{
+				std::cout << "List is empty.\n";
+			}
+		}
+		else if (cmd.function == "findMaxReturnPtr")
+		{
+			result = cdlist.findMaxReturnPtr(list, data, ptr);
+			if (result == 0)
+			{
+				std::cout << "List maximum " << data << " in pointer " << ptr << ".\n";
+			}
+			else
+			{
+				std::cout << "List is empty.\n";
+			}
+		}
+		else if (cmd.function == "findTailReturnPos")
+		{
+			result = cdlist.findTailReturnPos(list, position);
+			if (result == 0)
+			{
+				std::cout << "Tail position: " << position << '\n';
+			}
+			else if (result == 1)
+			{
+				std::cout << "List is empty.\n";
+			}
+		}
+		else if (cmd.function == "findTailReturnPtr")
+		{
+			result = cdlist.findTailReturnPtr(list, ptr);
+			if (result == 0)
+			{
+				std::cout << "Tail pointer: " << ptr << '\n';
+			}
+			else if (result == 1)
+			{
+				std::cout << "List is empty.\n";
+			}
+		}
+		else if (cmd.function == "movePosToFront")
+		{
+			result = cdlist.movePosToFront(&list, cmd.input1);
+			if (result == 0)
+			{
+				result = cdlist.size(list, nodeCount);
+				if (result == 0)
+				{
+					std::cout << "Node count: " << nodeCount << '\n';
+					cdlist.print(list);
+				}
+			}
+			else if (result == 1)
+			{
+				std::cout << "List is empty.\n";
+			}
+			else if (result == 5)
+			{
+				std::cout << "List has only one node.\n";
+			}
+			else if (result == -1)
+			{
+				std::cout << "Position is not in list.\n";
+			}
+			else if (result == -2)
+			{
+				std::cout << "No action needed.\n";
+			}
+		}
+		else if (cmd.function == "movePtrToFront")
+		{
+			result = cdlist.movePtrToFront(&list, ptr);
+			if (result == 0)
+			{
+				result = cdlist.size(list, nodeCount);
+				if (result == 0)
+				{
+					std::cout << "Node count: " << nodeCount << '\n';
+					cdlist.print(list);
+				}
+			}
+			else if (result == 1)
+			{
+				std::cout << "List is empty.\n";
+			}
+			else if (result == -1)
+			{
+				std::cout << "Pointer is not in list.\n";
+			}
+			else if (result == 2)
+			{
+				std::cout << "Pointer is null.\n";
+			}
+		}
+		else if (cmd.function == "movePosToBack")
+		{
+			result = cdlist.movePosToBack(&list, cmd.input1);
+			if (result == 0)
+			{
+				result = cdlist.size(list, nodeCount);
+				if (result == 0)
+				{
+					std::cout << "Node count: " << nodeCount << '\n';
+					cdlist.print(list);
+				}
+			}
+			else if (result == 1)
+			{
+				std::cout << "List is empty.\n";
+			}
+			else if (result == 5)
+			{
+				std::cout << "List has only one node.\n";
+			}
+			else if (result == -1)
+			{
+				std::cout << "Position is not in list.\n";
+			}
+			else if (result == -2)
+			{
+				std::cout << "No action needed.\n";
+			}
+		}
+		else if (cmd.function == "movePtrToBack")
+		{
+			result = cdlist.movePtrToBack(&list, ptr);
+			if (result == 0)
+			{
+				result = cdlist.size(list, nodeCount);
+				if (result == 0)
+				{
+					std::cout << "Node count: " << nodeCount << '\n';
+					cdlist.print(list);
+				}
+			}
+			else if (result == 1)
+			{
+				std::cout << "List is empty.\n";
+			}
+			else if (result == -1)
+			{
+				std::cout << "Pointer is not in list.\n";
+			}
+			else if (result == 2)
+			{
+				std::cout << "Pointer is null.\n";
+			}
+		}
+		else if (cmd.function == "movePosUp")
+		{
+			result = cdlist.movePosUp(&list, cmd.input1);
+			if (result == 0)
+			{
+				result = cdlist.size(list, nodeCount);
+				if (result == 0)
+				{
+					std::cout << "Node count: " << nodeCount << '\n';
+					cdlist.print(list);
+				}
+			}
+			else if (result == 1)
+			{
+				std::cout << "List is empty.\n";
+			}
+			else if (result == 5)
+			{
+				std::cout << "List has only one node.\n";
+			}
+			else if (result == -1)
+			{
+				std::cout << "Position is not in list.\n";
+			}
+			else if (result == -2)
+			{
+				std::cout << "No action needed.\n";
+			}
+		}
+		else if (cmd.function == "movePtrUp")
+		{
+			result = cdlist.movePtrUp(&list, ptr);
+			if (result == 0)
+			{
+				result = cdlist.size(list, nodeCount);
+				if (result == 0)
+				{
+					std::cout << "Node count: " << nodeCount << '\n';
+					cdlist.print(list);
+				}
+			}
+			else if (result == 1)
+			{
+				std::cout << "List is empty.\n";
+			}
+			else if (result == -1)
+			{
+				std::cout << "Pointer is not in list.\n";
+			}
+			else if (result == 2)
+			{
+				std::cout << "Pointer is null.\n";
+			}
+		}
+		else if (cmd.function == "movePosDown")
+		{
+			result = cdlist.movePosDown(&list, cmd.input1);
+			if (result == 0)
+			{
+				result = cdlist.size(list, nodeCount);
+				if (result == 0)
+				{
+					std::cout << "Node count: " << nodeCount << '\n';
+					cdlist.print(list);
+				}
+			}
+			else if (result == 1)
+			{
+				std::cout << "List is empty.\n";
+			}
+			else if (result == 5)
+			{
+				std::cout << "List has only one node.\n";
+			}
+			else if (result == -1)
+			{
+				std::cout << "Position is not in list.\n";
+			}
+			else if (result == -2)
+			{
+				std::cout << "No action needed.\n";
+			}
+		}
+		else if (cmd.function == "movePtrDown")
+		{
+			result = cdlist.movePtrDown(&list, ptr);
+			if (result == 0)
+			{
+				result = cdlist.size(list, nodeCount);
+				if (result == 0)
+				{
+					std::cout << "Node count: " << nodeCount << '\n';
+					cdlist.print(list);
+				}
+			}
+			else if (result == 1)
+			{
+				std::cout << "List is empty.\n";
+			}
+			else if (result == -1)
+			{
+				std::cout << "Pointer is not in list.\n";
+			}
+			else if (result == 2)
+			{
+				std::cout << "Pointer is null.\n";
+			}
+		}
+		else if (cmd.function == "clear")
+		{
+			result = cdlist.clear(&list);
+			if (result == 0)
+			{
+				std::cout << "List is empty.\n";
+			}
+			else
+			{
+				std::cout << "List was already empty.\n";
+			}
+		}
+		else if (cmd.function == "isEmpty")
+		{
+			result = cdlist.isEmpty(list);
+			if (result == 1)
+			{
+				std::cout << "List is empty.\n";
+			}
+			else
+			{
+				std::cout << "List is not empty.\n";
+			}
+		}
+		else if (cmd.function == "size")
+		{
+			result = cdlist.size(list, nodeCount);
+			if (result == 0)
+			{
+				std::cout << "Node count: " << nodeCount << '\n';
+			}
+			else if (result == 1)
+			{
+				std::cout << "List is empty.\n";
+			}
+		}
+		else if (cmd.function == "print")
+		{
+			result = cdlist.print(list);
+			if (result != 0)
+			{
+				std::cout << "List is empty.\n";
+			}
+		}
+		else if (cmd.function == "printReverse")
+		{
+			result = cdlist.printReverse(list);
+			if (result != 0)
+			{
+				std::cout << "List is empty.\n";
+			}
+		}
+		else if (cmd.function == "reverse")
+		{
+			result = cdlist.reverse(&list);
+			if (result == 0)
+			{
+				result = cdlist.size(list, nodeCount);
+				if (result == 0)
+				{
+					std::cout << "Node count: " << nodeCount << '\n';
+					cdlist.print(list);
+				}
+			}
+			else
+			{
+				std::cout << "List is empty.\n";
+			}
+		}
+		else if (cmd.function == "addNodes")
+		{
+			if (list != nullptr)
+			{
+				for (int i = 0; i < 9; i++)
+				{
+					cdlist.addNodeBack(list, pow(i, 5));
+				}
+				cdlist.size(list, nodeCount);
+				std::cout << "Node count: " << nodeCount << '\n';
+				cdlist.print(list);
+			}
+			else
+			{
+				std::cout << "List is empty.\n";
+			}
+		}
+		else if (cmd.function == "addRandomNodes")
+		{
+			random random;
+			random.initMt();
+			for (int i = 0; i < cmd.input1; i++)
+			{
+				int num = random.getNum(cmd.input2, cmd.input3);
+				result = cdlist.addNodeBack(list, num);
+				if (result == 1)
+				{
+					std::cout << "List is empty.\n";
+					break;
+				}
+			}
+			result = cdlist.size(list, nodeCount);
+			if (result == 0)
+			{
+				std::cout << "Node count: " << nodeCount << '\n';
+				cdlist.print(list);
+			}
+		}
+		else if (cmd.function == "clearPtr")
+		{
+			ptr = nullptr;
+			std::cout << "Pointer cleared.\n";
+		}
+		else if (cmd.function == "swap")
+		{
+			dNode* ptr1 = nullptr;
+			dNode* ptr2 = nullptr;
+			// get ptr1 from position 1.
+			result = cdlist.returnPtrByPos(list, cmd.input1, ptr1);
+			if (result == 0)
+			{
+				// get ptr2 from position 2.
+				result = cdlist.returnPtrByPos(list, cmd.input2, ptr2);
+				if (result == -1)
+				{
+					std::cout << "Postition 2 is not in list.\n";
+				}
+				else if (result == 0)
+				{
+					// swap ptr1 and ptr2.
+					result = cdlist.swap(&list, ptr1, ptr2);
+					if (result == 0)
+					{
+						result = cdlist.size(list, nodeCount);
+						if (result == 0)
+						{
+							std::cout << "Node count: " << nodeCount << '\n';
+							cdlist.print(list);
+						}
+					}
+					else if (result == 2)
+					{
+						std::cout << "Pointer 1 and/or 2 nullptr.\n";
+					}
+					else if (result == 4)
+					{
+						std::cout << "Pointers 1 and 2 are the same. No action needed.\n";
+					}
+					else if (result == 5)
+					{
+						std::cout << "List has only one node.\n";
+					}
+					else if (result == -1)
+					{
+						std::cout << "Pointer 1 and/or pointer 2 not found in list.\n";
+					}
+				}
+			}
+			else if (result == 1)
+			{
+				std::cout << "List is empty.\n";
+			}
+			else if (result == -1)
+			{
+				std::cout << "Postition 1 is not in list.\n";
+			}
+		}
+		else if (cmd.function == "shuffle")
+		{
+			result = cdlist.shuffle(&list);
+			if (result == 0)
+			{
+				result = cdlist.size(list, nodeCount);
+				if (result == 0)
+				{
+					std::cout << "Node count: " << nodeCount << '\n';
+					cdlist.print(list);
+				}
+			}
+			else if (result == 1)
+			{
+				std::cout << "List is empty.\n";
+			}
+			else if (result == 5)
+			{
+				std::cout << "List has only one node.\n";
+			}
+		}
+		cv.notify_one();
+	}
+	cv.notify_one();
+	std::cout << "Circular doubly linked list demo stopped.\n";
 }

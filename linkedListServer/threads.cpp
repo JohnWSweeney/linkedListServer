@@ -50,6 +50,10 @@ void startDemoThread(std::mutex &m, std::condition_variable &cv, cmd &cmd)
 	{
 		ptr = csDemo;
 	}
+	else if (cmd.demoType == "cdList")
+	{
+		ptr = cdDemo;
+	}
 
 	try {
 		status = true;
@@ -58,7 +62,7 @@ void startDemoThread(std::mutex &m, std::condition_variable &cv, cmd &cmd)
 	}
 	catch (...)
 	{
-		sessionStatus = false;
+		status = false;
 		std::cout << "Session failed to start " << cmd.demoType << " demo.\n";
 	}
 }
