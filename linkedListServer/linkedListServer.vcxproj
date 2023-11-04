@@ -131,6 +131,7 @@
   <ItemGroup>
     <ClInclude Include="atomicBool.h" />
     <ClInclude Include="commands.h" />
+    <ClInclude Include="csList.h" />
     <ClInclude Include="demos.h" />
     <ClInclude Include="dList.h" />
     <ClInclude Include="nodes.h" />
@@ -145,6 +146,7 @@
   <ItemGroup>
     <ClCompile Include="atomicBool.cpp" />
     <ClCompile Include="commands.cpp" />
+    <ClCompile Include="csList.cpp" />
     <ClCompile Include="demos.cpp" />
     <ClCompile Include="dList.cpp" />
     <ClCompile Include="main.cpp" />
