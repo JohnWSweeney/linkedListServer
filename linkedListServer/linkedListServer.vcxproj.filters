@@ -57,6 +57,9 @@
     <ClInclude Include="cdList.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="stack.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="atomicBool.cpp">
@@ -99,6 +102,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="cdList.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="stack.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

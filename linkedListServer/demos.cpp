@@ -5,6 +5,7 @@
 #include "dList.h"
 #include "csList.h"
 #include "cdList.h"
+#include "stack.h"
 
 void sDemo(std::mutex &m, std::condition_variable &cv, cmd &cmd)
 {
@@ -3693,4 +3694,102 @@ void cdDemo(std::mutex &m, std::condition_variable &cv, cmd &cmd)
 	}
 	cv.notify_one();
 	std::cout << "Circular doubly linked list demo stopped.\n";
+}
+
+void stackDemo(std::mutex &m, std::condition_variable &cv, cmd &cmd)
+{
+	std::cout << "Stack demo started.\n";
+	stack stack;
+	int result;
+	int nodeCount;
+	int data;
+	node* list = NULL;
+
+	std::unique_lock<std::mutex> lk(m);
+	cv.notify_one();
+	while (status)
+	{
+		cv.wait(lk);
+		std::cout << '\n';
+		if (cmd.function == "push")
+		{
+			stack.push(&list, cmd.input1);
+			stack.print(list);
+		}
+		else if (cmd.function == "pop")
+		{
+			result = stack.pop(&list);
+			if (result == 0)
+			{
+				result = stack.print(list);
+				if (result == 1)
+				{
+					std::cout << "Stack is empty.\n";
+				}
+			}
+			else if (result == 1)
+			{
+				std::cout << "Stack is empty.\n";
+			}
+		}
+		else if (cmd.function == "top")
+		{
+			result = stack.top(list, data);
+			if (result == 0)
+			{
+				std::cout << "Top node: " << data << '\n';
+			}
+			else if (result == 1)
+			{
+				std::cout << "Stack is empty.\n";
+			}
+		}
+		else if (cmd.function == "clear")
+		{
+			result = stack.clear(&list);
+			if (result == 0)
+			{
+				std::cout << "Stack cleared.\n";
+			}
+			else
+			{
+				std::cout << "Stack is empty.\n";
+			}
+		}
+		else if (cmd.function == "isEmpty")
+		{
+			result = stack.isEmpty(list);
+			if (result == 0)
+			{
+				std::cout << "Stack is not empty.\n";
+			}
+			else
+			{
+				std::cout << "Stack is empty.\n";
+			}
+		}
+		else if (cmd.function == "size")
+		{
+			result = stack.size(list, nodeCount);
+			if (result == 0)
+			{
+				std::cout << "Stack size: " << nodeCount << '\n';
+			}
+			else if (result == 1)
+			{
+				std::cout << "Stack is empty.\n";
+			}
+		}
+		else if (cmd.function == "print")
+		{
+			result = stack.print(list);
+			if (result == 1)
+			{
+				std::cout << "Stack is empty.\n";
+			}
+		}
+		cv.notify_one();
+	}
+	cv.notify_one();
+	std::cout << "Stack demo stopped.\n";
 }

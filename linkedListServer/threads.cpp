@@ -54,6 +54,10 @@ void startDemoThread(std::mutex &m, std::condition_variable &cv, cmd &cmd)
 	{
 		ptr = cdDemo;
 	}
+	else if (cmd.demoType == "stack")
+	{
+		ptr = stackDemo;
+	}
 
 	try {
 		status = true;

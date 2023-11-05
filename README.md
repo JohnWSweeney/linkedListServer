@@ -13,6 +13,9 @@ where *portNum* is the port on your computer where the server will send/receive 
 Once the server is running, run the companion client app to connect to the server and send demo commands. 
 
 ## ChangeLog
+v0.0.11
+- Added stack class and demo.
+
 v0.0.10
 - Added circular doubly linked list class `cdlist` and demo.
 

@@ -140,6 +140,7 @@
     <ClInclude Include="server.h" />
     <ClInclude Include="session.h" />
     <ClInclude Include="sList.h" />
+    <ClInclude Include="stack.h" />
     <ClInclude Include="start.h" />
     <ClInclude Include="tcp.h" />
     <ClInclude Include="threads.h" />
@@ -156,6 +157,7 @@
     <ClCompile Include="server.cpp" />
     <ClCompile Include="session.cpp" />
     <ClCompile Include="sList.cpp" />
+    <ClCompile Include="stack.cpp" />
     <ClCompile Include="start.cpp" />
     <ClCompile Include="tcp.cpp" />
     <ClCompile Include="threads.cpp" />
