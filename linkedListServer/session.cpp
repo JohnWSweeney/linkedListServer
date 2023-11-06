@@ -30,24 +30,30 @@ void Session::run(SOCKET socket, cmd &cmd)
 	do {
 		msg newMsg;
 		result = listen.rx(socket, newMsg.buffer, newMsg.bufferLen);
-		if (result > 0) // message received.
+		if (result > 0) // new commands received.
 		{
-			//std::cout << "Server received: " << newMsg.buffer << '\n';
 			convertBufferToCmd(newMsg.buffer, cmd);
 
-			if (cmd.demoStatus == "start")
+			if (cmd.demoStatus == "start") // start demo.
 			{
-				startDemoThread(std::ref(m), std::ref(cv), std::ref(cmd));
-				cv.wait(lk);
+				if (demoStatus == false)
+				{
+					startDemoThread(std::ref(m), std::ref(cv), std::ref(cmd));
+					cv.wait(lk);
+				}
+				else
+				{
+					std::cout << "Only one demo can run at a time.\n";
+				}
 			}
-			else if (cmd.demoStatus == "stop")
+			else if (cmd.demoStatus == "stop") // stop demo.
 			{
 				cmd.function = {};
-				status = false;
+				demoStatus = false;
 				cv.notify_one();
 				cv.wait(lk);
 			}
-			else // running.
+			else // demo running, update commands.
 			{
 				cv.notify_one();
 				cv.wait(lk);

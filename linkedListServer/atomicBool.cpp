@@ -2,4 +2,4 @@
 
 std::atomic<bool> serverStatus;
 std::atomic<bool> sessionStatus;
-std::atomic<bool> status;
+std::atomic<bool> demoStatus;

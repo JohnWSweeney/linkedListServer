@@ -20,7 +20,7 @@ void sDemo(std::mutex &m, std::condition_variable &cv, cmd &cmd)
 
 	std::unique_lock<std::mutex> lk(m);
 	cv.notify_one();
-	while (status)
+	while (demoStatus)
 	{
 		cv.wait(lk);
 		std::cout << '\n';
@@ -938,7 +938,7 @@ void dDemo(std::mutex &m, std::condition_variable &cv, cmd &cmd)
 
 	std::unique_lock<std::mutex> lk(m);
 	cv.notify_one();
-	while (status)
+	while (demoStatus)
 	{
 		cv.wait(lk);
 		std::cout << '\n';
@@ -1884,7 +1884,7 @@ void csDemo(std::mutex &m, std::condition_variable &cv, cmd &cmd)
 
 	std::unique_lock<std::mutex> lk(m);
 	cv.notify_one();
-	while (status)
+	while (demoStatus)
 	{
 		cv.wait(lk);
 		std::cout << '\n';
@@ -2811,7 +2811,7 @@ void cdDemo(std::mutex &m, std::condition_variable &cv, cmd &cmd)
 
 	std::unique_lock<std::mutex> lk(m);
 	cv.notify_one();
-	while (status)
+	while (demoStatus)
 	{
 		cv.wait(lk);
 		std::cout << '\n';
@@ -3707,7 +3707,7 @@ void stackDemo(std::mutex &m, std::condition_variable &cv, cmd &cmd)
 
 	std::unique_lock<std::mutex> lk(m);
 	cv.notify_one();
-	while (status)
+	while (demoStatus)
 	{
 		cv.wait(lk);
 		std::cout << '\n';

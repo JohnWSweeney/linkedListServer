@@ -13,6 +13,11 @@ where *portNum* is the port on your computer where the server will send/receive 
 Once the server is running, run the companion client app to connect to the server and send demo commands. 
 
 ## ChangeLog
+v0.0.12
+- Updated populateCmd in commands cpp to allow only one server thread.
+- Updated Session::run to allow only one demo at a time.
+- Added stop server condition to startMenu.
+
 v0.0.11
 - Added stack class and demo.
 

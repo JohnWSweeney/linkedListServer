@@ -3,4 +3,4 @@
 
 extern std::atomic<bool> serverStatus;
 extern std::atomic<bool> sessionStatus;
-extern std::atomic<bool> status;
+extern std::atomic<bool> demoStatus;

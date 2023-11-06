@@ -36,12 +36,11 @@ void Server::run(cmd &cmd)
 			else
 			{
 				startSessionThread(std::move(acceptSocket), std::ref(cmd));
+				break;
 			}
 		}
 	} while (serverStatus);
 	closesocket(listenSocket);
-	closesocket(acceptSocket);
-	WSACleanup();
 	std::cout << "Server terminated on port " << cmd.serverPort << ".\n";
 }
 void startServer(cmd &cmd)

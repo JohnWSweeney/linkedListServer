@@ -34,5 +34,12 @@ void startMenu(bool &running)
 				startServerThread(std::ref(cmd));
 			}
 		}
+		else if (tokens[0] == "stop")
+		{
+			if (tokens[1] == "server")
+			{
+				serverStatus = false;
+			}
+		}
 	}
 }

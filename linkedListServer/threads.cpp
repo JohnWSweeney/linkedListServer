@@ -60,13 +60,13 @@ void startDemoThread(std::mutex &m, std::condition_variable &cv, cmd &cmd)
 	}
 
 	try {
-		status = true;
+		demoStatus = true;
 		std::thread newThread(ptr, std::ref(m), std::ref(cv), std::ref(cmd));
 		newThread.detach();
 	}
 	catch (...)
 	{
-		status = false;
+		demoStatus = false;
 		std::cout << "Session failed to start " << cmd.demoType << " demo.\n";
 	}
 }
