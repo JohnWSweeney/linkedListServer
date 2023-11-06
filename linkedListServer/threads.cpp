@@ -58,6 +58,10 @@ void startDemoThread(std::mutex &m, std::condition_variable &cv, cmd &cmd)
 	{
 		ptr = stackDemo;
 	}
+	else if (cmd.demoType == "queue")
+	{
+		ptr = queueDemo;
+	}
 
 	try {
 		demoStatus = true;

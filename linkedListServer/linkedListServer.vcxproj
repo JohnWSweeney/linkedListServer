@@ -136,6 +136,7 @@
     <ClInclude Include="demos.h" />
     <ClInclude Include="dList.h" />
     <ClInclude Include="nodes.h" />
+    <ClInclude Include="queue.h" />
     <ClInclude Include="random.h" />
     <ClInclude Include="server.h" />
     <ClInclude Include="session.h" />
@@ -153,6 +154,7 @@
     <ClCompile Include="demos.cpp" />
     <ClCompile Include="dList.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="queue.cpp" />
     <ClCompile Include="random.cpp" />
     <ClCompile Include="server.cpp" />
     <ClCompile Include="session.cpp" />
