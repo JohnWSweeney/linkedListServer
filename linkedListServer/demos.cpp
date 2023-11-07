@@ -7,6 +7,7 @@
 #include "cdList.h"
 #include "stack.h"
 #include "queue.h"
+#include "deque.h"
 
 void sDemo(std::mutex &m, std::condition_variable &cv, cmd &cmd)
 {
@@ -3903,4 +3904,160 @@ void queueDemo(std::mutex &m, std::condition_variable &cv, cmd &cmd)
 	}
 	cv.notify_one();
 	std::cout << "Queue demo stopped.\n";
+}
+
+void dequeDemo(std::mutex &m, std::condition_variable &cv, cmd &cmd)
+{
+	std::cout << "Deque demo start.\n";
+	deque dq;
+	int result;
+	int nodeCount;
+	int data;
+	node* list = nullptr;
+
+	std::unique_lock<std::mutex> lk(m);
+	cv.notify_one();
+	while (demoStatus)
+	{
+		cv.wait(lk);
+		std::cout << '\n';
+		if (cmd.function == "front")
+		{
+			result = dq.front(list, data);
+			if (result == 0)
+			{
+				std::cout << "First element in queue: " << data << '\n';
+			}
+			else
+			{
+				std::cout << "List is empty.\n";
+			}
+		}
+		else if (cmd.function == "back")
+		{
+			result = dq.back(list, data);
+			if (result == 0)
+			{
+				std::cout << "Last element in queue: " << data << '\n';
+			}
+			else
+			{
+				std::cout << "List is empty.\n";
+			}
+		}
+		else if (cmd.function == "pushFront")
+		{
+			dq.push_front(&list, cmd.input1);
+			result = dq.size(list, nodeCount);
+			if (result == 0)
+			{
+				std::cout << "Node count: " << nodeCount << '\n';
+				dq.print(list);
+			}
+		}
+		else if (cmd.function == "popFront")
+		{
+			result = result = dq.pop_front(&list);
+			if (result == 0)
+			{
+				result = dq.size(list, nodeCount);
+				if (result == 0)
+				{
+					std::cout << "Node count: " << nodeCount << '\n';
+					dq.print(list);
+				}
+				else
+				{
+					std::cout << "List is empty.\n";
+				}
+			}
+			else
+			{
+				std::cout << "List is empty.\n";
+			}
+		}
+		else if (cmd.function == "pushBack")
+		{
+			dq.push_back(&list, cmd.input1);
+			result = dq.size(list, nodeCount);
+			if (result == 0)
+			{
+				std::cout << "Node count: " << nodeCount << '\n';
+				dq.print(list);
+			}
+		}
+		else if (cmd.function == "popBack")
+		{
+			result = dq.pop_back(&list);
+			if (result == 0)
+			{
+				result = dq.size(list, nodeCount);
+				if (result == 0)
+				{
+					std::cout << "Node count: " << nodeCount << '\n';
+					dq.print(list);
+				}
+				else
+				{
+					std::cout << "List is empty.\n";
+				}
+			}
+			else
+			{
+				std::cout << "List is empty.\n";
+			}
+		}
+		else if (cmd.function == "clear")
+		{
+			result = dq.clear(&list);
+			if (result == 0)
+			{
+				std::cout << "List is empty.\n";
+			}
+			else if (result == 1)
+			{
+				std::cout << "List was already empty.\n";
+			}
+		}
+		else if (cmd.function == "isEmpty")
+		{
+			result = dq.isEmpty(list);
+			if (result == 1)
+			{
+				std::cout << "List is empty.\n";
+			}
+			else
+			{
+				std::cout << "List is not empty.\n";
+			}
+		}
+		else if (cmd.function == "size")
+		{
+			result = dq.size(list, nodeCount);
+			if (result == 0)
+			{
+				std::cout << "Node count: " << nodeCount << '\n';
+			}
+			else if (result == 1)
+			{
+				std::cout << "List is empty.\n";
+			}
+		}
+		else if (cmd.function == "print")
+		{
+			result = dq.size(list, nodeCount);
+			if (result == 0)
+			{
+				std::cout << "Node count: " << nodeCount << '\n';
+				dq.print(list);
+			}
+			else
+			{
+				std::cout << "List is empty.\n";
+			}
+		}
+		cv.notify_one();
+	}
+	cv.notify_one();
+	std::cout << "Deque demo stopped.\n";
 }

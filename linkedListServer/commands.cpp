@@ -50,7 +50,6 @@ int populateCmd(std::vector<std::string> tokens, cmd &cmd)
 		{
 			std::cout << "Only one server can run at a time.\n";
 			return 1;
-		}
-		
+		}		
 	}
 }

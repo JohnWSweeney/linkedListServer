@@ -62,6 +62,10 @@ void startDemoThread(std::mutex &m, std::condition_variable &cv, cmd &cmd)
 	{
 		ptr = queueDemo;
 	}
+	else if (cmd.demoType == "deque")
+	{
+		ptr = dequeDemo;
+	}
 
 	try {
 		demoStatus = true;

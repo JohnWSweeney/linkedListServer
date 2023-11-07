@@ -134,6 +134,7 @@
     <ClInclude Include="commands.h" />
     <ClInclude Include="csList.h" />
     <ClInclude Include="demos.h" />
+    <ClInclude Include="deque.h" />
     <ClInclude Include="dList.h" />
     <ClInclude Include="nodes.h" />
     <ClInclude Include="queue.h" />
@@ -152,6 +153,7 @@
     <ClCompile Include="commands.cpp" />
     <ClCompile Include="csList.cpp" />
     <ClCompile Include="demos.cpp" />
+    <ClCompile Include="deque.cpp" />
     <ClCompile Include="dList.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="queue.cpp" />
