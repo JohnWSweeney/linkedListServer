@@ -13,6 +13,9 @@ where *portNum* is the port on your computer where the server will send/receive 
 Once the server is running, run the companion client app to connect to the server and send demo commands. 
 
 ## ChangeLog
+v0.0.15
+- Added priorityQueue class and demo.
+
 v0.0.14
 - Added deque class and demo.
 

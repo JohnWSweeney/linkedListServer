@@ -137,6 +137,7 @@
     <ClInclude Include="deque.h" />
     <ClInclude Include="dList.h" />
     <ClInclude Include="nodes.h" />
+    <ClInclude Include="priorityQueue.h" />
     <ClInclude Include="queue.h" />
     <ClInclude Include="random.h" />
     <ClInclude Include="server.h" />
@@ -156,6 +157,7 @@
     <ClCompile Include="deque.cpp" />
     <ClCompile Include="dList.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="priorityQueue.cpp" />
     <ClCompile Include="queue.cpp" />
     <ClCompile Include="random.cpp" />
     <ClCompile Include="server.cpp" />
