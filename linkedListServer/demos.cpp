@@ -9,6 +9,7 @@
 #include "queue.h"
 #include "deque.h"
 #include "priorityQueue.h"
+#include "fifo.h"
 
 void sDemo(std::mutex &m, std::condition_variable &cv, cmd &cmd)
 {
@@ -4189,4 +4190,131 @@ void priorityQueueDemo(std::mutex &m, std::condition_variable &cv, cmd &cmd)
 	}
 	cv.notify_one();
 	std::cout << "Priority Queue demo stopped.\n";
+}
+
+void fifoDemo(std::mutex &m, std::condition_variable &cv, cmd &cmd)
+{
+	std::cout << "FIFO demo started.\n";
+	fifo fifo;
+	int result;
+	int wordCount;
+	int data;
+	node* list = nullptr;
+
+	std::unique_lock<std::mutex> lk(m);
+	cv.notify_one();
+	while (demoStatus)
+	{
+		cv.wait(lk);
+		std::cout << '\n';
+		if (cmd.function == "config")
+		{
+			result = fifo.config(cmd.input1);
+			if (result == 7)
+			{
+				std::cout << "FIFO not configured: depth out of bounds.\n\n";
+			}
+		}
+		else if (cmd.function == "write")
+		{
+			result = fifo.wr_en(list, cmd.input1);
+			if (result == 0)
+			{
+				result = fifo.data_count(list, wordCount);
+				if (result >= 0 and result < 4)
+				{
+					std::cout << "Word count: " << wordCount << '\n';
+					fifo.print(list);
+				}
+			}
+			else if (result == 6)
+			{
+				std::cout << "FIFO overflow.\n";
+			}
+			else if (result == 7)
+			{
+				std::cout << "FIFO not configured.\n";
+			}
+		}
+		else if (cmd.function == "read")
+		{
+			result = fifo.rd_en(&list, data);
+			if (result == 0)
+			{
+				std::cout << "FIFO output: " << data << '\n';
+			}
+			else if (result == 5)
+			{
+				std::cout << "FIFO underflow.\n";
+			}
+			else if (result == 7)
+			{
+				std::cout << "FIFO not configured.\n";
+			}
+		}
+		else if (cmd.function == "clear")
+		{
+			result = fifo.rst(&list);
+			if (result == 0)
+			{
+				std::cout << "FIFO cleared.\n";
+			}
+			else if (result == 4)
+			{
+				std::cout << "FIFO is empty.\n";
+			}
+			else if (result == 7)
+			{
+				std::cout << "FIFO not configured.\n";
+			}
+		}
+		else if (cmd.function == "size")
+		{
+			result = fifo.data_count(list, wordCount);
+			if (result == 0)
+			{
+				std::cout << "Word count: " << wordCount << "\n\n";
+			}
+			else if (result == 4)
+			{
+				std::cout << "FIFO empty.\n\n";
+			}
+			else if (result == 3)
+			{
+				std::cout << "FIFO almost empty.\n\n";
+			}
+			else if (result == 2)
+			{
+				std::cout << "FIFO almost full. Word count: " << wordCount << "\n\n";
+			}
+			else if (result == 1)
+			{
+				std::cout << "FIFO full. Word count: " << wordCount << "\n\n";
+			}
+			else if (result == 7)
+			{
+				std::cout << "FIFO not configured.\n";
+			}
+		}
+		else if (cmd.function == "print")
+		{
+			result = fifo.data_count(list, wordCount);
+			if (result >= 0 and result < 4)
+			{
+				std::cout << "Word count: " << wordCount << '\n';
+				fifo.print(list);
+			}
+			else if (result == 4)
+			{
+				std::cout << "FIFO is empty.\n";
+			}
+			else if (result == 7)
+			{
+				std::cout << "FIFO not configured.\n";
+			}
+		}
+		cv.notify_one();
+	}
+	cv.notify_one();
+	std::cout << "FIFO demo stopped.\n";
 }

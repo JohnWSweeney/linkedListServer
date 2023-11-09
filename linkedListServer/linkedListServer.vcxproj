@@ -136,6 +136,7 @@
     <ClInclude Include="demos.h" />
     <ClInclude Include="deque.h" />
     <ClInclude Include="dList.h" />
+    <ClInclude Include="fifo.h" />
     <ClInclude Include="nodes.h" />
     <ClInclude Include="priorityQueue.h" />
     <ClInclude Include="queue.h" />
@@ -156,6 +157,7 @@
     <ClCompile Include="demos.cpp" />
     <ClCompile Include="deque.cpp" />
     <ClCompile Include="dList.cpp" />
+    <ClCompile Include="fifo.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="priorityQueue.cpp" />
     <ClCompile Include="queue.cpp" />

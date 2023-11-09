@@ -70,6 +70,10 @@ void startDemoThread(std::mutex &m, std::condition_variable &cv, cmd &cmd)
 	{
 		ptr = priorityQueueDemo;
 	}
+	else if (cmd.demoType == "fifo")
+	{
+		ptr = fifoDemo;
+	}
 
 	try {
 		demoStatus = true;
