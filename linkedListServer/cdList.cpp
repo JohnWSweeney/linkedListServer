@@ -1167,3 +1167,80 @@ int cdList::shuffle(dNode** list)
 	} while (temp < pow(nodeCount, 2));
 	return 0;
 }
+
+int cdList::bubbleSort(dNode** list, bool isAscending, int &swapCount, int &sweepCount)
+{
+	if (*list == nullptr) return 1; // list is empty.
+	// check if list has only one node.
+	dNode* head = *list;
+	if (head->next == head) return 5;
+	// define and initialize varaibles.
+	dNode* before = nullptr; // node before adjacent nodes under test.
+	dNode* curr = nullptr; // first adjacent node under test.
+	dNode* test = nullptr; // second adjacent node under test.
+	dNode* after = nullptr; // node after adjacent nodes under test.
+	int swaps = 0; // node swaps per sweep.
+	swapCount = 0; // total node swaps.
+	sweepCount = 0;
+	// sweep list, swap adjacent nodes according to isAscending.
+	// stop on first sweep with no swaps.
+	do {
+		// sweep list, swapping adajcent nodes as needed.
+		swaps = 0;
+		do {
+			curr = *list;
+			before = curr->prev;
+			test = curr->next;
+			after = curr->next->next;
+			if (isAscending == true) // sort ascending.
+			{
+				if (curr->data > test->data)
+				{
+					if (curr == head)
+					{
+						head = test;
+					}
+					before->next = test;
+					test->prev = before;
+					test->next = curr;
+					curr->prev = test;
+					curr->next = after;
+					after->prev = curr;
+					*list = curr;
+					++swaps;
+				}
+				else
+				{
+					*list = curr->next;
+				}
+			}
+			else // sort descending.
+			{
+				if (curr->data < test->data)
+				{
+					if (curr == head)
+					{
+						head = test;
+					}
+					before->next = test;
+					test->prev = before;
+					test->next = curr;
+					curr->prev = test;
+					curr->next = after;
+					after->prev = curr;
+					*list = curr;
+					++swaps;
+				}
+				else
+				{
+					*list = curr->next;
+				}
+			}
+		} while (after != head);
+		swapCount += swaps;
+		++sweepCount;
+		*list = head; // reset list.
+	} while (swaps != 0);
+
+	return 0;
+}

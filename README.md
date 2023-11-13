@@ -13,6 +13,9 @@ where *portNum* is the port on your computer where the server will send/receive 
 Once the server is running, run the companion client app to connect to the server and send demo commands. 
 
 ## ChangeLog
+v0.0.17
+- Updated cdList class and demo with bubbleSort function.
+
 v0.0.16
 - Added fifo class and demo.
 
